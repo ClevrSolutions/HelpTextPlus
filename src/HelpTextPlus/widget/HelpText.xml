@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="HelpTextPlus.widget.HelpText" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>Help Text Plus Viewer</name>
+  <description>Displays a help text. Might be toggled by the Help Text Trigger</description>
+
+  <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC
+LElEQVR4nGL8z4AfAAAAAP//YoExbij/j/oX91/iH8PfF/8W/VtmehciDgAAAP//YoSYcCX4/2QR
+SQaGvwwMDEwMfxgePf+Xa7eWgYGBAQAAAP//YvzPwMBwMfjvQmnuzwyPGF4x/GMQYJBjEGC4+vVf
+vOdaBgYAAAAA//9i/M9wRunfYVmpdwwXGAQYzBgYGG4y3GbQYRBlOPfsr23oPQAAAAD//2JiYPgZ
+Iy71meEMw1cGZwZeBl4GEwZmhksMnxlUpL7HMDAAAAAA//9iYmD4EcvMcJfhB8Nfhk8M5xluMDAw
+6DF8ZrjNwMPwLZaBAQAAAP//BMHBDQAQEACwYox72t1ochO4h0i0nQrScy3NdKRnGyr4AAAA//8E
+wQEKABAUBbAp53FsF1R+Up6tUyKuJ4ZlOmjY+AAAAP//BMGxEQAQEACwFCZQqm1sRhMoXvHnJY3Y
+ObujPAupMFyx+QAAAP//YmJg+Lb4NYMKAxPDb4a/DBkMaQx/Gf4x/GfQZHjI8GMxAwMAAAD//2Ji
+YPi+5NAzJgZzBhaGPwy7GfYyMDD8Z7BiYGHY8uzHEgYGAAAAAP//YvzPwMDQHPx3YRD3X4ZLDM8Z
+/jBIMOgysDDM+fovfuZaBgYAAAAA//+CBnV58L/JzpLyDGwMDAw/GW4zbH7+L3feWgYGBgYAAAAA
+//9ihMVmrvLfqH9x/yT+Mfx98X/Rv2WLoJEFAAAA//9iJBTdAAAAAP//AwBVopl/DSt8QwAAAABJ
+RU5ErkJggg==</icon>
+
+  <properties>
+		<property key="text" type="string" multiline="true" required="true">
+      <caption>Help text</caption>
+      <category>Behavior</category>
+      <description>The help text which will be displayed when the user clicks or hovers the Help Text Viewer</description>
+    </property>
+    <property key="startvisible" type="boolean" defaultValue="false">
+      <caption>Always Visible</caption>
+      <category>Behavior</category>
+      <description>If true, the button will be always visible, if false, the button will only be visible when Help Texts are triggered. </description>
+    </property>
+		
+    <property key="showonhover" type="boolean" defaultValue="true">
+      <caption>Show on hover</caption>
+      <category>Behavior</category>
+      <description>Show the help text when the mouse hovers over the button</description>
+    </property>
+		<property key="width" type="integer" defaultValue="300">
+      <caption>Width</caption>
+      <category>Common</category>
+      <description>Width of the help box in pixels</description>
+    </property>
+		<property key="height" type="integer" defaultValue="300">
+      <caption>Height</caption>
+      <category>Common</category>
+      <description>Maximum height of the help box in pixels</description>
+    </property>
+  </properties>
+</widget>
+

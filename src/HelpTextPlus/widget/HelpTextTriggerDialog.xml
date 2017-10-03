@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="HelpTextPlus.widget.HelpTextTriggerDialog" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>Help Text Plus Trigger Dialog</name>
+  <description>Triggers the Help opening in a new browser. For use in dialog</description>
+
+  <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0
+U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKkSURBVDjLpZPdT5JhGMb9W+BPaK3matVq
+ndXWOOigA6fmJ9DUcrUMlrN0mNMsKTUznQpq6pyKAm8CIogmypcg8GIiX8rHRHjhVbPt6o01nMvZ
+Wge/k3vP9duuZ/edAyDnf/hjoCMP2Vr3gUDj3CdV6zT1xZ6iFDaKnLEkBFOmPfaZArWT5sw60iFP
++BAbOzTcQSqDZzsNRyCNkcVoaGghzDlVQKylOHJrMrUZ2Yf52y6kc36IxpyoH1lHF7EBgyMKV4jC
+J5U/1UVscU4IZOYEa3I1HtwI01hwxlDLhDoJD/wxGr5YGmOLAdRIrVCuhmD3JdA6SQabx12srGB0
+KSpc86ew4olDOGjH4x4z0gdHDD9+c4TaQQtq+k2Yt0egXYugTmoVZgV9cyHSxXTtJjZR3WNCVfcK
+/NE0ppYDUNu2QTMCtS0IbrsOrVMOWL27eNJtJLOCDoWXdgeTEEosqPxoBK/TwDzWY9rowy51gJ1d
+Gr2zLpS2aVH5QQ+Hbw88sZ7OClrGXbQrkMTTAQu4HXqUv9eh7J0OSfo7tiIU+GItilpUuM/AF2tg
+98eR36Q+FryQ2kjbVhximQu8dgPKxPMoeTuH4tfqDIWvCBQ2KlDQKEe9dBlGTwR36+THFZg+QoUx
+AL0jgsoOQzYYS+wjskcjTzSToVAkA7Hqg4Spc6tm4vgT+eIFVvmb+eCSMwLlih/cNg0KmpRoGzdl
++BXOb5jAsMYNjSWAm9VjwesPR1knFilPNMu510CkdPZtqK1BvJQsoaRZjqLGaTzv1UNp9EJl9uNq
+xefU5QdDnFNX+Y5Qxrn9bDLUR6zjqzsMizeWYdG5gy6ZDbk8aehiuYRz5jHdeDTKvlY1IrhSMUxe
+4g9SuVwpdaFsgDxf2i84V9zH/us1/is/AdevBaK9Tb3EAAAAAElFTkSuQmCC</icon>
+
+  <properties>
+		<property key="txton" type="translatableString" required="false">
+      <caption>Enable caption</caption>
+      <category>Appearance</category>
+      <description>The caption which will be showed when the help texts can be turned on</description>
+    </property>  
+		<property key="txtoff" type="translatableString" required="false">
+      <caption>Disable caption</caption>
+      <category>Appearance</category>
+      <description>The caption which will be showed when the help texts can be turned off</description>
+    </property>
+    <property key="screenLocation" type="string" required="false">
+      <caption>Screen Location</caption>
+      <category>Behavior</category>
+      <description>Set the current screen for the documentation</description>
+    </property>  
+  </properties>
+</widget>
+

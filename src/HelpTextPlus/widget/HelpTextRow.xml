@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="HelpTextPlus.widget.HelpTextRow" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>Row based Help Text Plus Viewer</name>
+  <description>Displays a help text in a form row. Might be toggled by the Help Text Trigger. If hidden, the whole row will be hidden.</description>
+
+  <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC
+LElEQVR4nGL8z4AfAAAAAP//YoExbij/j/oX91/iH8PfF/8W/VtmehciDgAAAP//YoSYcCX4/2QR
+SQaGvwwMDEwMfxgePf+Xa7eWgYGBAQAAAP//YvzPwMBwMfjvQmnuzwyPGF4x/GMQYJBjEGC4+vVf
+vOdaBgYAAAAA//9i/M9wRunfYVmpdwwXGAQYzBgYGG4y3GbQYRBlOPfsr23oPQAAAAD//2JiYPgZ
+Iy71meEMw1cGZwZeBl4GEwZmhksMnxlUpL7HMDAAAAAA//9iYmD4EcvMcJfhB8Nfhk8M5xluMDAw
+6DF8ZrjNwMPwLZaBAQAAAP//BMHBDQAQEACwYox72t1ochO4h0i0nQrScy3NdKRnGyr4AAAA//8E
+wQEKABAUBbAp53FsF1R+Up6tUyKuJ4ZlOmjY+AAAAP//BMGxEQAQEACwFCZQqm1sRhMoXvHnJY3Y
+ObujPAupMFyx+QAAAP//YmJg+Lb4NYMKAxPDb4a/DBkMaQx/Gf4x/GfQZHjI8GMxAwMAAAD//2Ji
+YPi+5NAzJgZzBhaGPwy7GfYyMDD8Z7BiYGHY8uzHEgYGAAAAAP//YvzPwMDQHPx3YRD3X4ZLDM8Z
+/jBIMOgysDDM+fovfuZaBgYAAAAA//+CBnV58L/JzpLyDGwMDAw/GW4zbH7+L3feWgYGBgYAAAAA
+//9ihMVmrvLfqH9x/yT+Mfx98X/Rv2WLoJEFAAAA//9iJBTdAAAAAP//AwBVopl/DSt8QwAAAABJ
+RU5ErkJggg==</icon>
+
+  <properties>
+		<property key="text" type="string" multiline="true" required="true">
+      <caption>Help text</caption>
+      <category>Behavior</category>
+      <description>The help text which will be displayed when the user trigger the viewer</description>
+    </property>
+    <property key="startvisible" type="boolean" defaultValue="false">
+      <caption>Start Visible</caption>
+      <category>Behavior</category>
+      <description>If true, the row will start visible. If false, the help text will be visible once the Help Texts are triggered.</description>
+    </property>
+    <property key="hideonclick" type="boolean" defaultValue="false">
+      <caption>Hide on click</caption>
+      <category>Behavior</category>
+      <description>If true, the row will fade away when clicked (Clicking the Help Text Trigger will restore the help text after hiding).</description>
+    </property>		
+		<property key="height" type="integer" defaultValue="300">
+      <caption>Height</caption>
+      <category>Common</category>
+      <description>Maximum height of the help box in pixels</description>
+    </property>
+  </properties>
+</widget>
+
