@@ -4,11 +4,13 @@ These buttons display a help message when clicked or hovered.
 
 Optionally, the buttons can be hidden by default, with a global switch (the Help Text Trigger) to show or hide them. 
 */
-dojo.provide("HelpTextPlus.widget.HelpTextRow");
-
-mendix.dom.insertCss(mx.moduleUrl("HelpTextPlus", "widget/styles/HelpText.css"));
-
-mendix.widget.declare('HelpTextPlus.widget.HelpTextRow', {
+define([
+		"dojo/_base/declare",
+		"mxui/widget/_WidgetBase",
+		"mxui/dom",
+		"dojo/_base/kernel"
+	], function (declare, _WidgetBase, mxuiDom, dojo) {
+		return declare("HelpTextPlus.widget.HelpTextRow", [ _WidgetBase ], {
 	addons       : [],
 	
 	inputargs: {
@@ -25,7 +27,11 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextRow', {
 	rowNode : null,
 	targetHeight : 0,
 	anim : null,
-	
+
+	constructor : function() {
+		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
+	},
+
 	postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
@@ -101,3 +107,6 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextRow', {
 		dojo.unsubscribe(this.handle);
 	}
 });
+});
+
+require(["HelpTextPlus/widget/HelpTextRow"]);

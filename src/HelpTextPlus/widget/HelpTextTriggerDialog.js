@@ -1,11 +1,13 @@
 /**
 
 */
-dojo.provide("HelpTextPlus.widget.HelpTextTriggerDialog");
-
-mendix.dom.insertCss(mx.moduleUrl("HelpTextPlus", "widget/styles/HelpText.css"));
-
-mendix.widget.declare('HelpTextPlus.widget.HelpTextTriggerDialog', {
+define([
+		"dojo/_base/declare",
+		"mxui/widget/_WidgetBase",
+		"mxui/dom",
+		"dojo/_base/kernel"
+	], function (declare, _WidgetBase, mxuiDom, dojo) {
+		return declare("HelpTextPlus.widget.HelpTextTriggerDialog", [ _WidgetBase ], {
 	addons       : [],
 	
 	inputargs: {
@@ -19,7 +21,11 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTriggerDialog', {
 	imgNode: null,
 	txtNode: null,
 	tries: 0,
-	
+
+	constructor : function() {
+		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
+	},
+
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
@@ -137,3 +143,6 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTriggerDialog', {
 		logger.debug(this.id + ".uninitialize");
 	}
 });
+});
+
+require(["HelpTextPlus/widget/HelpTextTriggerDialog"]);

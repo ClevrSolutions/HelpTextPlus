@@ -1,35 +1,34 @@
-/**
-
-*/
-dojo.provide("HelpTextPlus.widget.HelpTextTrigger");
-
-mendix.dom.insertCss(mx.moduleUrl("HelpTextPlus", "widget/styles/HelpText.css"));
-
-mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
+define([
+    "dojo/_base/declare",
+	"mxui/widget/_WidgetBase",
+	"mxui/dom",
+	"dojo/_base/kernel"
+], function (declare, _WidgetBase, mxuiDom, dojo) {
+	return declare("HelpTextPlus.widget.HelpTextTrigger", [ _WidgetBase ], {
 	addons       : [],
-	
-	inputargs: {
-		txton : '',
-		txtoff: '',
-		caption:'',
-		captionNL:'',
-		captionDE:''
-	},
-	
+
+	txton: '',
+	txtoff: '',
+	caption: '',
+	captionNL: '',
+	captionDE: '',
+
 	//IMPLEMENTATION
 	domNode: null,
 	txtNode: null,
 	tries: 0,
 	screenLocation: '',
-	
+
+	constructor : function() {
+		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
+	},
+
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
 		//houskeeping
 		this.connect(this.domNode, 'onclick', this.toggle);
 		mx.addOnLoad(dojo.hitch(this, this.resetCaption)); 
-		
-		this.actRendered();
 	},
 
 	toggle : function() {
@@ -130,7 +129,7 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 	resetCaption:function(){
 		//system needs some time to set the locale when changing users, so timeout is needed
 		setTimeout(dojo.hitch(this, function () {
-         var code = mx.ui.getLocale();
+         var code = dojo.locale;
                          var caption = this.caption;
 			 
                              switch(code){
@@ -144,11 +143,14 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
                                     caption = this.captionDE;
                                     break;
                               }
-			     							this.domNode.title = caption;
-                }), 1000);
-  },
-	
-	uninitialize : function() {
+							 this.domNode.title = caption;
+		}), 1000);
+	},
+
+	uninitialize: function () {
 		logger.debug(this.id + ".uninitialize");
 	}
+	});
 });
+
+require(["HelpTextPlus/widget/HelpTextTrigger"]);
