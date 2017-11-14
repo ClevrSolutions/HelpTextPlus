@@ -5,21 +5,21 @@ These buttons display a help message when clicked or hovered.
 Optionally, the buttons can be hidden by default, with a global switch (the Help Text Trigger) to show or hide them. 
 */
 define([
-		"dojo/_base/declare",
-		"mxui/widget/_WidgetBase",
-		"mxui/dom",
-		"dojo/_base/kernel"
-	], function (declare, _WidgetBase, mxuiDom, dojo) {
-		return declare("HelpTextPlus.widget.HelpText", [ _WidgetBase ], {
-	addons       : [],
-	
-	inputargs: {
+	"dojo/_base/declare",
+	"mxui/widget/_WidgetBase",
+	"mxui/dom",
+	"dojo/dom-geometry",
+	"dojo/_base/lang",
+	"dojo/dom-style",
+	"dojo/topic",
+	"dojo/html"
+], function (declare, _WidgetBase, mxuiDom, domGeom, lang, domStyle, topic, html) {
+	return declare("HelpTextPlus.widget.HelpText", [ _WidgetBase ], {
 		text : '',
 		startvisible : false,
 		showonhover : true,
 		width : 300,
-		height : 300
-	},
+		height : 300,
 	
 	//IMPLEMENTATION
 	domNode: null,
@@ -29,47 +29,41 @@ define([
 	helpNode : null,
 	helpvisible: false,
 
-	constructor : function() {
-		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
-	},
-
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
 		//img node
-		this.imgNode = mendix.dom.div({
+		this.imgNode = mxuiDom.create("div", {
 			'class' : 'HelpTextButton'
 		});
 		this.domNode.appendChild(this.imgNode);
 		this.connect(this.imgNode, 'onclick', this.toggleHelp);
 		if (this.showonhover) {
-			this.connect(this.imgNode, 'onmouseenter', dojo.hitch(this, this.showHelp, true));
-			this.connect(this.imgNode, 'onmouseleave', dojo.hitch(this, this.showHelp, false));
+			this.connect(this.imgNode, 'onmouseenter', lang.hitch(this, this.showHelp, true));
+			this.connect(this.imgNode, 'onmouseleave', lang.hitch(this, this.showHelp, false));
 		}
 		
 		//help node
 		this.createHelp();
 		
 		this.stateChange(this.startvisible);
-		this.handle = dojo.subscribe(this.topic, this, this.stateChange);
-		
-		this.actRendered();
+		this.handle = topic.subscribe(this.topic, this, this.stateChange);
 	},
 
 	stateChange : function(newstate) {
 		if (newstate)
-			dojo.style(this.imgNode, "display", "block")
+		domStyle.set(this.imgNode, "display", "block")
 		else if (!this.startvisible) {
 			this.helpvisible = false;
-			dojo.style(this.imgNode, "display", "none");
+			domStyle.set(this.imgNode, "display", "none");
 			this.showHelp(false);
 		}
 	},
 	
 	createHelp : function () {
-		this.helpNode = mendix.dom.div({'class' : 'HelpTextBox'});
-		dojo.html.set(this.helpNode, this.text);
-		dojo.style(this.helpNode, {
+		this.helpNode = mxuiDom.create("div", {'class' : 'HelpTextBox'});
+		html.set(this.helpNode, this.text);
+		domStyle.set(this.helpNode, {
 			'width' : this.width + 'px',
 			'maxHeight' : this.height + 'px'
 		});
@@ -84,15 +78,15 @@ define([
 	
 	showHelp : function(show) {
 		if (show || this.helpvisible) {
-			var coords = dojo.coords(this.imgNode, true);
-			dojo.style(this.helpNode, {
+			var coords = domGeom.position(this.imgNode, true);
+			domStyle.set(this.helpNode, {
 				'display' : 'block',
 				'top' : coords.y + 30,
 				'left': window.innerWidth < coords.x + 30 + this.width ? coords.x - this.height - 30 : coords.x + 30
 			}); 
 		}
 		else
-			dojo.style(this.helpNode, 'display', 'none');
+		domStyle.set(this.helpNode, 'display', 'none');
 	},
 	
 	suspended : function() {
@@ -101,10 +95,10 @@ define([
 	
 	uninitialize : function() {
 		document.body.removeChild(this.helpNode);
-		dojo.unsubscribe(this.handle);
+		this.handle.remove();
 		logger.debug(this.id + ".uninitialize");
 	}
-});
-});
+		});
+	});
 
-require(["HelpTextPlus/widget/HelpText"]);
+require([ "HelpTextPlus/widget/HelpText" ]);

@@ -2,19 +2,16 @@
 
 */
 define([
-		"dojo/_base/declare",
-		"mxui/widget/_WidgetBase",
-		"mxui/dom",
-		"dojo/_base/kernel"
-	], function (declare, _WidgetBase, mxuiDom, dojo) {
-		return declare("HelpTextPlus.widget.HelpTextTriggerDialog", [ _WidgetBase ], {
-	addons       : [],
+	"dojo/_base/declare",
+	"mxui/widget/_WidgetBase",
+	"mxui/dom",
+	"dojo/_base/lang"
+], function (declare, _WidgetBase, mxuiDom, lang) {
+	return declare("HelpTextPlus.widget.HelpTextTriggerDialog", [ _WidgetBase ], {
 	
-	inputargs: {
 		txton : '',
 		txtoff: '',
-		screenLocation: ''
-	},
+		screenLocation: '',
 	
 	//IMPLEMENTATION
 	domNode: null,
@@ -22,26 +19,20 @@ define([
 	txtNode: null,
 	tries: 0,
 
-	constructor : function() {
-		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
-	},
-
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
 		//houskeeping
-		this.imgNode = mendix.dom.div({
+		this.imgNode = mxuiDom.create("div", {
 			'class' : 'HelpTextTriggerDialog'
 		});
 		this.domNode.appendChild(this.imgNode);
 		
-		this.txtNode = mendix.dom.label({'class' : 'HelpTextTriggerLabel'}, this.txton);
+		this.txtNode = mxuiDom.create("label", {'class' : 'HelpTextTriggerLabel'}, this.txton);
 		this.domNode.appendChild(this.txtNode);
 		
 		this.connect(this.imgNode, 'onclick', this.toggle);
 		this.connect(this.txtNode, 'onclick', this.toggle);
-		
-		this.actRendered();
 	},
 
 	toggle : function() {
@@ -63,11 +54,11 @@ define([
 		var xPathConstraint = "[ScreenLocation='" + this.screenLocation + "']"
 		var xPath = "//HelpText.HelpTextURL"+ xPathConstraint;
 		 
-		mx.processor.get({
+		mx.data.get({
 			xpath : xPath,
-			filter : {limit : 1 },
-			callback : dojo.hitch(this, this.setArticle),
-			error: dojo.hitch(this, function(err) {console.log('ERROR');})
+			filter : {amount : 1 },
+			callback : lang.hitch(this, this.setArticle),
+			error: lang.hitch(this, function(err) {console.log('ERROR');})
 		});
 		
 		},
@@ -77,16 +68,16 @@ define([
 			this.openDefault();
 		}else{
 			this.helpObject = object[0];
-			this.article = this.helpObject.getAttribute('Article');
+			this.article = this.helpObject.get('Article');
 	
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Server');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setServer),
-				error: dojo.hitch(this, function(err) {console.log('ERROR');})
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setServer),
+				error: lang.hitch(this, function(err) {console.log('ERROR');})
 			});
 		}
 	},
@@ -95,16 +86,16 @@ define([
 		if(ServerObject == null){
 			this.openDefault();
 		}else{
-			this.server = ServerObject.getAttribute('Path');
+			this.server = ServerObject.get('Path');
 			
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Version');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setVersion),
-				error: dojo.hitch(this, function(err) {
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setVersion),
+				error: lang.hitch(this, function(err) {
 					console.log('ERROR');
 				})
 			});
@@ -115,7 +106,7 @@ define([
 		if(VersionObject == null){
 			this.openDefault();
 		}else{
-			this.version = VersionObject.getAttribute('Version');
+			this.version = VersionObject.get('Version');
 			this.openDocumentatie();
 		}	
 	},
@@ -142,7 +133,7 @@ define([
 	uninitialize : function() {
 		logger.debug(this.id + ".uninitialize");
 	}
-});
-});
+		});
+	});
 
-require(["HelpTextPlus/widget/HelpTextTriggerDialog"]);
+require([ "HelpTextPlus/widget/HelpTextTriggerDialog" ]);

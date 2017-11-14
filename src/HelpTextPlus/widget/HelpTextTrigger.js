@@ -1,11 +1,11 @@
 define([
-    "dojo/_base/declare",
+	"dojo/_base/declare",
 	"mxui/widget/_WidgetBase",
 	"mxui/dom",
+	"dojo/_base/lang",
 	"dojo/_base/kernel"
-], function (declare, _WidgetBase, mxuiDom, dojo) {
+], function (declare, _WidgetBase, mxuiDom, lang, kernel) {
 	return declare("HelpTextPlus.widget.HelpTextTrigger", [ _WidgetBase ], {
-	addons       : [],
 
 	txton: '',
 	txtoff: '',
@@ -19,20 +19,16 @@ define([
 	tries: 0,
 	screenLocation: '',
 
-	constructor : function() {
-		mxuiDom.addCss("widgets/HelpTextPlus/widget/styles/HelpText.css");
-	},
-
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
 		//houskeeping
 		this.connect(this.domNode, 'onclick', this.toggle);
-		mx.addOnLoad(dojo.hitch(this, this.resetCaption)); 
+		mx.addOnLoad(lang.hitch(this, this.resetCaption)); 
 	},
 
 	toggle : function() {
-		var formName = typeof(mxui) != "undefined"?mx.ui.getCurrentForm().path:"undefined";
+		var formName = typeof(mxui) != "undefined"?this.mxform.path:"undefined";
 		var index = formName.indexOf('/');
 		
 		if(index !=null){
@@ -50,11 +46,11 @@ define([
 		var xPathConstraint = "[ScreenLocation='" + this.screenLocation + "']"
 		var xPath = "//HelpText.HelpTextURL"+ xPathConstraint;
 		 
-		mx.processor.get({
+		mx.data.get({
 			xpath : xPath,
-			filter : {limit : 1 },
-			callback : dojo.hitch(this, this.setArticle),
-			error: dojo.hitch(this, function(err) {console.log('ERROR');})
+			filter : {amount : 1 },
+			callback : lang.hitch(this, this.setArticle),
+			error: lang.hitch(this, function(err) {console.log('ERROR');})
 		});
 		
 		},
@@ -64,16 +60,16 @@ define([
 			this.openDefault();
 		}else{
 			this.helpObject = object[0];
-			this.article = this.helpObject.getAttribute('Article');
+			this.article = this.helpObject.get('Article');
 	
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Server');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setServer),
-				error: dojo.hitch(this, function(err) {console.log('ERROR');})
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setServer),
+				error: lang.hitch(this, function(err) {console.log('ERROR');})
 			});
 		}
 	},
@@ -82,16 +78,16 @@ define([
 		if(ServerObject == null){
 			this.openDefault();
 		}else{
-			this.server = ServerObject.getAttribute('Path');
+			this.server = ServerObject.get('Path');
 			
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Version');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setVersion),
-				error: dojo.hitch(this, function(err) {
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setVersion),
+				error: lang.hitch(this, function(err) {
 					console.log('ERROR');
 				})
 			});
@@ -102,7 +98,7 @@ define([
 		if(VersionObject == null){
 			this.openDefault();
 		}else{
-			this.version = VersionObject.getAttribute('Version');
+			this.version = VersionObject.get('Version');
 			this.openDocumentatie();
 		}	
 	},
@@ -128,8 +124,8 @@ define([
 	
 	resetCaption:function(){
 		//system needs some time to set the locale when changing users, so timeout is needed
-		setTimeout(dojo.hitch(this, function () {
-         var code = dojo.locale;
+		setTimeout(lang.hitch(this, function () {
+         var code = kernel.locale;
                          var caption = this.caption;
 			 
                              switch(code){
