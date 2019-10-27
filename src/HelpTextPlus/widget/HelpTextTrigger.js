@@ -1,39 +1,34 @@
-/**
+define([
+	"dojo/_base/declare",
+	"mxui/widget/_WidgetBase",
+	"mxui/dom",
+	"dojo/_base/lang",
+	"dojo/_base/kernel"
+], function (declare, _WidgetBase, mxuiDom, lang, kernel) {
+	return declare("HelpTextPlus.widget.HelpTextTrigger", [ _WidgetBase ], {
 
-*/
-dojo.provide("HelpTextPlus.widget.HelpTextTrigger");
+	txton: '',
+	txtoff: '',
+	caption: '',
+	captionNL: '',
+	captionDE: '',
 
-mendix.dom.insertCss(mx.moduleUrl("HelpTextPlus", "widget/styles/HelpText.css"));
-
-mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
-	addons       : [],
-	
-	inputargs: {
-		txton : '',
-		txtoff: '',
-		caption:'',
-		captionNL:'',
-		captionDE:''
-	},
-	
 	//IMPLEMENTATION
 	domNode: null,
 	txtNode: null,
 	tries: 0,
 	screenLocation: '',
-	
+
   postCreate : function(){
 		logger.debug(this.id + ".postCreate");
 
 		//houskeeping
 		this.connect(this.domNode, 'onclick', this.toggle);
-		mx.addOnLoad(dojo.hitch(this, this.resetCaption)); 
-		
-		this.actRendered();
+		mx.addOnLoad(lang.hitch(this, this.resetCaption)); 
 	},
 
 	toggle : function() {
-		var formName = typeof(mxui) != "undefined"?mx.ui.getCurrentForm().path:"undefined";
+		var formName = typeof(mxui) != "undefined"?this.mxform.path:"undefined";
 		var index = formName.indexOf('/');
 		
 		if(index !=null){
@@ -51,11 +46,11 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 		var xPathConstraint = "[ScreenLocation='" + this.screenLocation + "']"
 		var xPath = "//HelpText.HelpTextURL"+ xPathConstraint;
 		 
-		mx.processor.get({
+		mx.data.get({
 			xpath : xPath,
-			filter : {limit : 1 },
-			callback : dojo.hitch(this, this.setArticle),
-			error: dojo.hitch(this, function(err) {console.log('ERROR');})
+			filter : {amount : 1 },
+			callback : lang.hitch(this, this.setArticle),
+			error: lang.hitch(this, function(err) {console.log('ERROR');})
 		});
 		
 		},
@@ -65,16 +60,16 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 			this.openDefault();
 		}else{
 			this.helpObject = object[0];
-			this.article = this.helpObject.getAttribute('Article');
+			this.article = this.helpObject.get('Article');
 	
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Server');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setServer),
-				error: dojo.hitch(this, function(err) {console.log('ERROR');})
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setServer),
+				error: lang.hitch(this, function(err) {console.log('ERROR');})
 			});
 		}
 	},
@@ -83,16 +78,16 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 		if(ServerObject == null){
 			this.openDefault();
 		}else{
-			this.server = ServerObject.getAttribute('Path');
+			this.server = ServerObject.get('Path');
 			
 			var guidArray = this.helpObject.getReferences('HelpText.HelpTextURL_Version');
 			var firstguid = guidArray[0];
 			
-			mx.processor.get({
+			mx.data.get({
 				guid : firstguid,
-				filter : {limit : 1 },
-				callback : dojo.hitch(this, this.setVersion),
-				error: dojo.hitch(this, function(err) {
+				filter : {amount : 1 },
+				callback : lang.hitch(this, this.setVersion),
+				error: lang.hitch(this, function(err) {
 					console.log('ERROR');
 				})
 			});
@@ -103,7 +98,7 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 		if(VersionObject == null){
 			this.openDefault();
 		}else{
-			this.version = VersionObject.getAttribute('Version');
+			this.version = VersionObject.get('Version');
 			this.openDocumentatie();
 		}	
 	},
@@ -129,8 +124,8 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
 	
 	resetCaption:function(){
 		//system needs some time to set the locale when changing users, so timeout is needed
-		setTimeout(dojo.hitch(this, function () {
-         var code = mx.ui.getLocale();
+		setTimeout(lang.hitch(this, function () {
+         var code = kernel.locale;
                          var caption = this.caption;
 			 
                              switch(code){
@@ -144,11 +139,14 @@ mendix.widget.declare('HelpTextPlus.widget.HelpTextTrigger', {
                                     caption = this.captionDE;
                                     break;
                               }
-			     							this.domNode.title = caption;
-                }), 1000);
-  },
-	
-	uninitialize : function() {
+							 this.domNode.title = caption;
+		}), 1000);
+	},
+
+	uninitialize: function () {
 		logger.debug(this.id + ".uninitialize");
 	}
+	});
 });
+
+require(["HelpTextPlus/widget/HelpTextTrigger"]);
